@@ -1,16 +1,54 @@
-# lumi
+# Lumi
 
-A new Flutter project.
+### Safety-Aware POI Recommendation Prototype
 
-## Getting Started
+Lumi is a mobile research prototype that integrates urban safety considerations into point-of-interest (POI) recommendations.
 
-This project is a starting point for a Flutter application.
+Unlike traditional recommendation systems that prioritize popularity or proximity, Lumi incorporates:
 
-A few resources to get you started if this is your first Flutter project:
+- Historical crime data
+- Environmental indicators (e.g., street lighting)
+- User-defined visit context
+- Adjustable cautiousness levels
+- LLM-generated safety explanations
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+The system demonstrates how safety can function as a dynamic, context-aware parameter in urban decision support.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+---
+
+## Features
+
+- Free-text POI search
+- Per-visit context selection
+- Adjustable safety sensitivity
+- Map-based visualization
+- Human-readable safety explanations
+- Save and share locations
+
+---
+
+## 🏗 Architecture
+
+**Frontend**
+
+- Flutter (Android & iOS)
+- RxDart-based reactive state management
+- BLoC architecture pattern
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Flutter SDK (3.x or higher)
+- Running backend server
+- Configured LLM API key (backend side)
+
+### Installation
+
+```bash
+git clone https://github.com/miri-red/lumi.git
+cd lumi
+flutter pub get
+```
