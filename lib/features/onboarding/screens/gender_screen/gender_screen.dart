@@ -45,8 +45,6 @@ class _GenderScreenState extends State<GenderScreen> {
   }
 
   Future<void> _skip() async {
-    // you said Gender is part of onboarding; if you truly want it required,
-    // remove this and disable the Done button until selected.
     setState(() => _selected = Gender.preferNot);
     await _done();
   }
@@ -54,8 +52,7 @@ class _GenderScreenState extends State<GenderScreen> {
   @override
   Widget build(BuildContext context) {
     final t = Theme.of(context).textTheme;
-    if (_loading)
-      return const Scaffold(body: Center(child: CircularProgressIndicator()));
+    if (_loading) return const Scaffold(body: Center(child: CircularProgressIndicator()));
 
     return Scaffold(
       appBar: AppBar(),
@@ -68,10 +65,7 @@ class _GenderScreenState extends State<GenderScreen> {
               Container(
                 width: MediaQuery.of(context).size.width * 0.4,
                 height: MediaQuery.of(context).size.width * 0.4,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Color(0XFFFEFEFE),
-                ),
+                decoration: BoxDecoration(shape: BoxShape.circle, color: Color(0XFFFEFEFE)),
                 alignment: Alignment.center,
                 child: Image.asset("lib/assets/images/Lumi_f2.png"),
               ),
@@ -110,15 +104,7 @@ class _GenderScreenState extends State<GenderScreen> {
               ),
 
               const Spacer(),
-              // Text(
-              //   "Optional — used only to personalize POI suggestions.",
-              //   style: t.bodyMedium?.copyWith(color: Colors.black54),
-              // ),
-              // const SizedBox(height: 16),
-              LumiPrimaryButton(
-                onPressed: _selected == null ? null : _done,
-                label: "Done",
-              ),
+              LumiPrimaryButton(onPressed: _selected == null ? null : _done, label: "Done"),
               const SizedBox(height: 12),
               TextButton(onPressed: _skip, child: const Text("Skip")),
               SizedBox(height: 30),

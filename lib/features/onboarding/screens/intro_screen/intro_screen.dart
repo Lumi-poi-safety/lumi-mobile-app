@@ -20,24 +20,11 @@ class OnboardIntroScreen extends StatelessWidget {
               Container(
                 width: MediaQuery.of(context).size.width * 0.7,
                 height: MediaQuery.of(context).size.width * 0.7,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Color(0XFFFEFEFE),
-                ),
+                decoration: BoxDecoration(shape: BoxShape.circle, color: Color(0XFFFEFEFE)),
                 alignment: Alignment.center,
-                child: Image.asset(
-                  "lib/assets/images/Lumi_f2.png",
-                  // width: MediaQuery.of(context).size.width * 0.5,
-                ),
+                child: Image.asset("lib/assets/images/Lumi_f2.png"),
               ),
 
-              // // Optional: show Lumi image here too
-              // Image.asset(
-              //   'assets/lumi/lumi.png', // change to your actual Lumi asset
-              //   width: 120,
-              //   height: 120,
-              //   errorBuilder: (_, __, ___) => const SizedBox(height: 120),
-              // ),
               const SizedBox(height: 18),
               Text(
                 "Let’s get to know each other",
@@ -48,10 +35,7 @@ class OnboardIntroScreen extends StatelessWidget {
               Text(
                 "A few quick details help me personalize your recommendations.",
                 textAlign: TextAlign.center,
-                style: t.bodyLarge?.copyWith(
-                  color: Colors.black54,
-                  height: 1.35,
-                ),
+                style: t.bodyLarge?.copyWith(color: Colors.black54, height: 1.35),
               ),
 
               const Spacer(),
@@ -68,9 +52,7 @@ class OnboardIntroScreen extends StatelessWidget {
                 height: 54,
                 child: LumiPrimaryButton(
                   label: "Let’s start",
-                  onPressed: () => Navigator.of(
-                    context,
-                  ).pushReplacementNamed(Routes.onboardName),
+                  onPressed: () => Navigator.of(context).pushReplacementNamed(Routes.onboardName),
                 ),
               ),
             ],

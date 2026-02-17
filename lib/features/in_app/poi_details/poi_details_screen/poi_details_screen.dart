@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lumi/di/di.dart';
 import 'package:lumi/features/in_app/data/local/saved_pois_store.dart';
 import 'package:lumi/features/in_app/models/poi_model.dart';
 import 'package:lumi/features/in_app/models/safety_tag.dart';
@@ -8,11 +9,7 @@ class PoiPreviewSheet extends StatefulWidget {
   final Poi poi;
   final VoidCallback onViewDetails;
 
-  const PoiPreviewSheet({
-    super.key,
-    required this.poi,
-    required this.onViewDetails,
-  });
+  const PoiPreviewSheet({super.key, required this.poi, required this.onViewDetails});
 
   @override
   State<PoiPreviewSheet> createState() => _PoiPreviewSheetState();
@@ -46,6 +43,11 @@ class _PoiPreviewSheetState extends State<PoiPreviewSheet> {
       _saved = nowSaved;
       _loading = false;
     });
+    if (savedPlacesBloc.isSaved(widget.poi.id)) {
+      savedPlacesBloc.remove(widget.poi.id);
+    } else {
+      savedPlacesBloc.add(widget.poi);
+    }
   }
 
   @override
@@ -98,10 +100,7 @@ class _PoiPreviewSheetState extends State<PoiPreviewSheet> {
             ),
 
             const SizedBox(height: 16),
-            LumiPrimaryButton(
-              onPressed: widget.onViewDetails,
-              label: "View details",
-            ),
+            LumiPrimaryButton(onPressed: widget.onViewDetails, label: "View details"),
           ],
         ),
       ),

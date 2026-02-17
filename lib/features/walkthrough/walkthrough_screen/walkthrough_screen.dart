@@ -18,9 +18,7 @@ class _WalkthroughScreenState extends State<WalkthroughScreen> {
     _WalkPage(
       imageAsset: 'lib/assets/images/Lumi_f2.png',
       title: "Hi, I’m Lumi,\nYour safety genie",
-      // subtitle: "Safety, illuminated.",
-      body:
-          "I help you choose places with safety in mind - using recent crime patterns nearby.",
+      body: "I help you choose places with safety in mind - using recent crime patterns nearby.",
       cta: "Next",
     ),
 
@@ -68,19 +66,8 @@ class _WalkthroughScreenState extends State<WalkthroughScreen> {
       Navigator.of(context).pushReplacementNamed(Routes.onboardIntro);
       return;
     }
-    _pc.nextPage(
-      duration: const Duration(milliseconds: 260),
-      curve: Curves.easeOut,
-    );
+    _pc.nextPage(duration: const Duration(milliseconds: 260), curve: Curves.easeOut);
   }
-
-  // void _back() {
-  //   if (_index == 0) return;
-  //   _pc.previousPage(
-  //     duration: const Duration(milliseconds: 260),
-  //     curve: Curves.easeOut,
-  //   );
-  // }
 
   @override
   void dispose() {
@@ -96,23 +83,6 @@ class _WalkthroughScreenState extends State<WalkthroughScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            // Top bar: Back + Skip
-            // Padding(
-            //   padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
-            //   child: Row(
-            //     children: [
-            //       IconButton(
-            //         onPressed: _index == 0 ? null : _goBack,
-            //         icon: const Icon(Icons.arrow_back),
-            //         tooltip: 'Back',
-            //       ),
-            //       const Spacer(),
-            //       TextButton(onPressed: _skip, child: const Text('Skip')),
-            //     ],
-            //   ),
-            // ),
-
-            // Pages
             Expanded(
               child: PageView.builder(
                 controller: _pc,
@@ -124,14 +94,9 @@ class _WalkthroughScreenState extends State<WalkthroughScreen> {
                     padding: const EdgeInsets.fromLTRB(24, 10, 24, 10),
                     child: Column(
                       children: [
-                        // Visual
-                        Expanded(
-                          flex: 7,
-                          child: _WalkthroughVisual(asset: p.imageAsset),
-                        ),
+                        Expanded(flex: 7, child: _WalkthroughVisual(asset: p.imageAsset)),
                         const SizedBox(height: 18),
 
-                        // Copy
                         Expanded(
                           flex: 4,
                           child: Column(
@@ -150,10 +115,7 @@ class _WalkthroughScreenState extends State<WalkthroughScreen> {
                               Text(
                                 p.body,
                                 textAlign: TextAlign.center,
-                                style: t.bodyLarge?.copyWith(
-                                  color: Colors.black54,
-                                  height: 1.35,
-                                ),
+                                style: t.bodyLarge?.copyWith(color: Colors.black54, height: 1.35),
                               ),
                             ],
                           ),
@@ -165,168 +127,25 @@ class _WalkthroughScreenState extends State<WalkthroughScreen> {
               ),
             ),
 
-            // Dots
             Padding(
               padding: const EdgeInsets.only(bottom: 10),
               child: _Dots(count: _pages.length, index: _index),
             ),
 
-            // CTA
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 0, 20, 18),
               child: SizedBox(
                 width: double.infinity,
                 height: 54,
-                child: LumiPrimaryButton(
-                  onPressed: _next,
-                  label: _pages[_index].cta,
-                ),
+                child: LumiPrimaryButton(onPressed: _next, label: _pages[_index].cta),
               ),
             ),
           ],
         ),
       ),
     );
-
-    // final page = _pages[_index];
-
-    // return Scaffold(
-    //   // backgroundColor: Colors.white,
-    //   body: SafeArea(
-    //     child: Column(
-    //       children: [
-    //         // top row: back only (keep it clean)
-    //         // Padding(
-    //         //   padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
-    //         //   child: Row(
-    //         //     children: [
-    //         //       IconButton(
-    //         //         onPressed: _index == 0 ? null : _back,
-    //         //         icon: const Icon(Icons.arrow_back),
-    //         //       ),
-    //         //       const Spacer(),
-    //         //     ],
-    //         //   ),
-    //         // ),
-
-    //         // artwork
-    //         Expanded(
-    //           child: PageView.builder(
-    //             controller: _pc,
-    //             itemCount: _pages.length,
-    //             onPageChanged: (i) => setState(() => _index = i),
-    //             itemBuilder: (_, i) => Padding(
-    //               padding: const EdgeInsets.symmetric(horizontal: 22),
-    //               child: Center(
-    //                 child: Image.asset(
-    //                   _pages[i].image,
-    //                   fit: BoxFit.contain,
-    //                   errorBuilder: (_, __, ___) =>
-    //                       Text('Missing asset: ${_pages[i].image}'),
-    //                 ),
-    //               ),
-    //             ),
-    //           ),
-    //         ),
-
-    //         // copy
-    //         Padding(
-    //           padding: const EdgeInsets.fromLTRB(22, 8, 22, 0),
-    //           child: Column(
-    //             children: [
-    //               Text(
-    //                 page.title,
-    //                 textAlign: TextAlign.center,
-    //                 style: t.titleLarge?.copyWith(
-    //                   fontWeight: FontWeight.w700,
-    //                   height: 1.18,
-    //                 ),
-    //               ),
-    //               if (page.subtitle != null) ...[
-    //                 const SizedBox(height: 8),
-    //                 Text(
-    //                   page.subtitle!,
-    //                   textAlign: TextAlign.center,
-    //                   style: t.bodyLarge?.copyWith(
-    //                     fontWeight: FontWeight.w600,
-    //                     color: Colors.black87,
-    //                   ),
-    //                 ),
-    //               ],
-    //               const SizedBox(height: 12),
-    //               Text(
-    //                 page.body,
-    //                 textAlign: TextAlign.center,
-    //                 style: t.bodyLarge?.copyWith(
-    //                   color: Colors.black54,
-    //                   height: 1.35,
-    //                 ),
-    //               ),
-    //             ],
-    //           ),
-    //         ),
-
-    //         const SizedBox(height: 16),
-    //         _Dots(count: _pages.length, index: _index),
-    //         const SizedBox(height: 18),
-
-    //         // CTA
-    //         Padding(
-    //           padding: const EdgeInsets.fromLTRB(22, 0, 22, 18),
-    //           child: SizedBox(
-    //             width: double.infinity,
-    //             height: 54,
-    //             child: _GradientPillButton(text: page.cta, onPressed: _next),
-    //           ),
-    //         ),
-    //       ],
-    //     ),
-    //   ),
-    // );
   }
 }
-
-// class _WalkPage {
-//   final String image;
-//   final String title;
-//   final String? subtitle;
-//   final String body;
-//   final String cta;
-
-//   const _WalkPage({
-//     required this.image,
-//     required this.title,
-//     required this.body,
-//     required this.cta,
-//     this.subtitle,
-//   });
-// }
-
-// class _Dots extends StatelessWidget {
-//   final int count;
-//   final int index;
-//   const _Dots({required this.count, required this.index});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Row(
-//       mainAxisAlignment: MainAxisAlignment.center,
-//       children: List.generate(count, (i) {
-//         final selected = i == index;
-//         return AnimatedContainer(
-//           duration: const Duration(milliseconds: 200),
-//           margin: const EdgeInsets.symmetric(horizontal: 5),
-//           width: selected ? 18 : 8,
-//           height: 8,
-//           decoration: BoxDecoration(
-//             color: selected ? Colors.black87 : Colors.black26,
-//             borderRadius: BorderRadius.circular(999),
-//           ),
-//         );
-//       }),
-//     );
-//   }
-// }
 
 class _WalkPage {
   final String imageAsset;
@@ -348,7 +167,6 @@ class _WalkthroughVisual extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // A clean card-like container that matches your soft Lumi style
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(

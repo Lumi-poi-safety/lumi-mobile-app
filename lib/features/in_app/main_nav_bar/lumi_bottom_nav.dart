@@ -1,14 +1,7 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 
 class LumiBottomNav extends StatelessWidget {
-  const LumiBottomNav({
-    super.key,
-    required this.index,
-    required this.onTap,
-    required this.items,
-  });
+  const LumiBottomNav({super.key, required this.index, required this.onTap, required this.items});
 
   final int index;
   final ValueChanged<int> onTap;

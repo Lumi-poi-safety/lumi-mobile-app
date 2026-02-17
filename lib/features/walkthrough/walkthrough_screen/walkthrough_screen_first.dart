@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:lumi/widgets/lumi_buttons.dart';
 
 class WalkthroughScreenFirst extends StatefulWidget {
-  /// Set false to remove screen 4 (trust & transparency).
   final bool includeTrustScreen;
 
-  /// Where to go after walkthrough (e.g. onboarding welcome route).
   final String nextRoute;
 
   const WalkthroughScreenFirst({
@@ -69,23 +67,8 @@ class _WalkthroughScreenFirstState extends State<WalkthroughScreenFirst> {
       Navigator.of(context).pushReplacementNamed(widget.nextRoute);
       return;
     }
-    _controller.nextPage(
-      duration: const Duration(milliseconds: 260),
-      curve: Curves.easeOut,
-    );
+    _controller.nextPage(duration: const Duration(milliseconds: 260), curve: Curves.easeOut);
   }
-
-  // void _goBack() {
-  //   if (_index == 0) return;
-  //   _controller.previousPage(
-  //     duration: const Duration(milliseconds: 260),
-  //     curve: Curves.easeOut,
-  //   );
-  // }
-
-  // void _skip() {
-  //   Navigator.of(context).pushReplacementNamed(widget.nextRoute);
-  // }
 
   @override
   void dispose() {
@@ -101,23 +84,6 @@ class _WalkthroughScreenFirstState extends State<WalkthroughScreenFirst> {
       body: SafeArea(
         child: Column(
           children: [
-            // Top bar: Back + Skip
-            // Padding(
-            //   padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
-            //   child: Row(
-            //     children: [
-            //       IconButton(
-            //         onPressed: _index == 0 ? null : _goBack,
-            //         icon: const Icon(Icons.arrow_back),
-            //         tooltip: 'Back',
-            //       ),
-            //       const Spacer(),
-            //       TextButton(onPressed: _skip, child: const Text('Skip')),
-            //     ],
-            //   ),
-            // ),
-
-            // Pages
             Expanded(
               child: PageView.builder(
                 controller: _controller,
@@ -130,10 +96,7 @@ class _WalkthroughScreenFirstState extends State<WalkthroughScreenFirst> {
                     child: Column(
                       children: [
                         // Visual
-                        Expanded(
-                          flex: 6,
-                          child: _WalkthroughVisual(asset: p.imageAsset),
-                        ),
+                        Expanded(flex: 6, child: _WalkthroughVisual(asset: p.imageAsset)),
                         const SizedBox(height: 18),
 
                         // Copy
@@ -154,10 +117,7 @@ class _WalkthroughScreenFirstState extends State<WalkthroughScreenFirst> {
                               Text(
                                 p.body,
                                 textAlign: TextAlign.center,
-                                style: t.bodyLarge?.copyWith(
-                                  color: Colors.black54,
-                                  height: 1.35,
-                                ),
+                                style: t.bodyLarge?.copyWith(color: Colors.black54, height: 1.35),
                               ),
                             ],
                           ),
@@ -181,10 +141,7 @@ class _WalkthroughScreenFirstState extends State<WalkthroughScreenFirst> {
               child: SizedBox(
                 width: double.infinity,
                 height: 54,
-                child: LumiPrimaryButton(
-                  onPressed: _goNext,
-                  label: _pages[_index].cta,
-                ),
+                child: LumiPrimaryButton(onPressed: _goNext, label: _pages[_index].cta),
               ),
             ),
           ],
@@ -214,7 +171,6 @@ class _WalkthroughVisual extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // A clean card-like container that matches your soft Lumi style
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(

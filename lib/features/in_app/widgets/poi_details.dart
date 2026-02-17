@@ -1,45 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:lumi/features/in_app/models/poi_model.dart';
 import 'package:lumi/features/in_app/models/safety_tag.dart';
-import 'package:lumi/features/in_app/models/visit_context.dart';
-import 'package:lumi/features/in_app/explore/explore_screen/widgets/visit_context_sheet.dart';
+import 'package:lumi/features/in_app/widgets/poi_map_snippet.dart';
 import 'package:lumi/style/age_buttons_style.dart';
+import 'package:lumi/utils/poi_navigation.dart';
+import 'package:lumi/utils/poi_share.dart';
 
 class PoiDetailsSheet extends StatefulWidget {
   final Poi poi;
-  final VisitContext initialContext;
 
-  const PoiDetailsSheet({
-    super.key,
-    required this.poi,
-    required this.initialContext,
-  });
+  const PoiDetailsSheet({super.key, required this.poi});
 
   @override
   State<PoiDetailsSheet> createState() => _PoiDetailsSheetState();
 }
 
 class _PoiDetailsSheetState extends State<PoiDetailsSheet> {
-  late VisitContext _context;
-
   @override
   void initState() {
     super.initState();
-    _context = widget.initialContext;
-  }
-
-  Future<void> _editContext() async {
-    final updated = await showModalBottomSheet<VisitContext>(
-      context: context,
-      isScrollControlled: true,
-      useSafeArea: true,
-      backgroundColor: Colors.white,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-      ),
-      builder: (_) => VisitContextSheet(initial: _context),
-    );
-    if (updated != null) setState(() => _context = updated);
   }
 
   @override
@@ -90,35 +69,25 @@ class _PoiDetailsSheetState extends State<PoiDetailsSheet> {
             const SizedBox(height: 8),
             Text(
               _detailsParagraph(widget.poi.tag),
-              style: t.bodyMedium?.copyWith(
-                color: Colors.black54,
-                height: 1.35,
-              ),
+              style: t.bodyMedium?.copyWith(color: Colors.black54, height: 1.35),
             ),
 
             const SizedBox(height: 18),
-            Text(
-              "Why Lumi thinks this",
-              style: t.bodyLarge?.copyWith(fontWeight: FontWeight.w600),
-            ),
+            Text("Why Lumi thinks this", style: t.bodyLarge?.copyWith(fontWeight: FontWeight.w600)),
             const SizedBox(height: 8),
-            const _Bullet("Low recent incident density nearby"),
-            const _Bullet("Area activity tends to be calmer in daytime"),
-            const _Bullet("Similar POIs nearby show similar patterns"),
+            _Bullet(widget.poi.safetyReason),
+            _Bullet(widget.poi.relevanceReason),
 
             const SizedBox(height: 18),
             Container(
-              height: 140,
-              width: double.infinity, // OK inside ListView
+              height: 160,
+              width: double.infinity,
               decoration: BoxDecoration(
                 color: Colors.black.withOpacity(0.03),
                 borderRadius: BorderRadius.circular(20),
               ),
               alignment: Alignment.center,
-              child: Text(
-                "Map snippet",
-                style: TextStyle(color: Colors.black.withOpacity(0.45)),
-              ),
+              child: PoiMapSnippet(lat: widget.poi.lat, lng: widget.poi.lng),
             ),
 
             const SizedBox(height: 16),
@@ -126,35 +95,27 @@ class _PoiDetailsSheetState extends State<PoiDetailsSheet> {
               children: [
                 Expanded(
                   child: OutlinedButton.icon(
-                    onPressed: () {},
-                    icon: const Icon(Icons.bookmark_outline),
-                    label: const Text("Save"),
+                    onPressed: () => PoiShare.sharePoi(context, widget.poi),
+                    icon: const Icon(Icons.ios_share_outlined),
+                    label: const Text("Share"),
                     style: LumiAgeButtonStyles.selected,
                   ),
                 ),
                 const SizedBox(width: 12),
                 Expanded(
                   child: OutlinedButton.icon(
-                    onPressed: () {},
-                    icon: const Icon(Icons.ios_share_outlined),
-                    label: const Text("Share"),
+                    onPressed: () => PoiNavigation.openDirections(
+                      lat: widget.poi.lat,
+                      lng: widget.poi.lng,
+                      name: widget.poi.name,
+                    ),
+                    icon: const Icon(Icons.navigation_outlined),
+                    label: const Text("Navigate"),
                     style: LumiAgeButtonStyles.selected,
                   ),
                 ),
               ],
             ),
-
-            // const SizedBox(height: 10),
-            // Center(
-            //   child: TextButton(
-            //     onPressed: _editContext,
-            //     child: Text(
-            //       _context.isEmpty
-            //           ? "Add visit context"
-            //           : "Change visit context",
-            //     ),
-            //   ),
-            // ),
           ],
         );
       },
@@ -177,13 +138,13 @@ class _PoiDetailsSheetState extends State<PoiDetailsSheet> {
   String _detailsParagraph(SafetyTag tag) {
     switch (tag) {
       case SafetyTag.generallySafe:
-        return "Typically calm environment with low recent activity nearby. Still, stay aware—conditions can change.";
+        return "Typically calm environment with low recent activity nearby. Still, stay aware-conditions can change.";
       case SafetyTag.beCautious:
-        return "Some recent activity nearby. This place may be fine depending on time and context—choose accordingly.";
+        return "Some recent activity nearby. This place may be fine depending on time and context-choose accordingly.";
       case SafetyTag.caution:
         return "Recent activity suggests higher unpredictability nearby. Consider alternatives, especially during late hours.";
       case SafetyTag.noData:
-        return "No recent data available. This place may be fine depending on time and context—choose accordingly.";
+        return "No recent data available. This place may be fine depending on time and context-choose accordingly.";
     }
   }
 }
@@ -201,10 +162,7 @@ class _Bullet extends StatelessWidget {
         children: [
           const Text("•  "),
           Expanded(
-            child: Text(
-              text,
-              style: TextStyle(color: Colors.black.withOpacity(0.75)),
-            ),
+            child: Text(text, style: TextStyle(color: Colors.black.withOpacity(0.75))),
           ),
         ],
       ),

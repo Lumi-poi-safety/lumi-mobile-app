@@ -1,6 +1,22 @@
-enum VisitWith { justMe, friends, date, family }
+enum VisitWith {
+  justMe('Just me', 'alone'),
+  friends('Friends', 'friends'),
+  date('Date', 'date'),
+  family('Family', 'family');
 
-enum CautionLevel { relaxed, balanced, cautious }
+  const VisitWith(this.value, this.beValue);
+  final String value;
+  final String beValue;
+}
+
+enum CautionLevel {
+  relaxed('Relaxed'),
+  balanced('Balanced'),
+  cautious('Cautious');
+
+  const CautionLevel(this.value);
+  final String value;
+}
 
 class VisitContext {
   final VisitWith? withWhom;
@@ -11,9 +27,6 @@ class VisitContext {
   bool get isEmpty => withWhom == null && caution == null;
 
   VisitContext copyWith({VisitWith? withWhom, CautionLevel? caution}) {
-    return VisitContext(
-      withWhom: withWhom ?? this.withWhom,
-      caution: caution ?? this.caution,
-    );
+    return VisitContext(withWhom: withWhom ?? this.withWhom, caution: caution ?? this.caution);
   }
 }

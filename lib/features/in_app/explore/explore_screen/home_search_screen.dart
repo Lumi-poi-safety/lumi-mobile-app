@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:lumi/data/local/user_profile_store.dart';
+import 'package:lumi/di/di.dart';
 import 'package:lumi/features/in_app/models/visit_context.dart';
 import 'package:lumi/features/in_app/widgets/lumi_app_bar.dart';
 import 'package:lumi/models/user_profile.dart';
 import 'package:lumi/routes/routes.dart';
 import 'package:lumi/style/age_buttons_style.dart';
 import 'package:lumi/widgets/lumi_buttons.dart';
-import 'package:lumi/widgets/lumi_loading.dart';
 
 class HomeSearchScreen extends StatefulWidget {
   const HomeSearchScreen({super.key});
@@ -49,24 +49,16 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
   }
 
   void _search() async {
+    FocusScope.of(context).unfocus();
     final query = _queryCtrl.text.trim();
     final ctx = VisitContext(withWhom: _withWhom, caution: _caution);
 
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (_) => const Center(child: LumiLoading()),
-    );
+    searchBloc.search(userText: query, visitContext: ctx);
 
-    await Future.delayed(const Duration(seconds: 5), () {
-      if (mounted) {
-        Navigator.of(context).pop();
-        Navigator.of(context).pushNamed(
-          Routes.mapResults,
-          arguments: MapResultsArgs(query: query, context: ctx),
-        );
-      }
-    });
+    Navigator.of(context).pushNamed(
+      Routes.mapResults,
+      arguments: MapResultsArgs(query: query, context: ctx),
+    );
   }
 
   @override
@@ -75,14 +67,6 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
 
     return Scaffold(
       appBar: lumiAppBar("What are you looking for?"),
-      // AppBar(
-      //   leading: Image.asset("lib/assets/images/Lumi_f2.png"),
-      //   title: Text("What are you looking for?"),
-      //   elevation: 0,
-      //   centerTitle: true,
-      //   backgroundColor: Colors.transparent,
-      //   foregroundColor: const Color(0xFF1E2A33),
-      // ),
       body: SafeArea(
         child: LayoutBuilder(
           builder: (context, constraints) {
@@ -92,34 +76,16 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
                 FocusManager.instance.primaryFocus?.unfocus();
               },
               child: SingleChildScrollView(
-                padding: EdgeInsets.only(
-                  bottom: MediaQuery.of(context).viewInsets.bottom,
-                ),
+                padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
                 child: ConstrainedBox(
                   constraints: BoxConstraints(minHeight: constraints.maxHeight),
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 30,
-                      vertical: 10,
-                    ),
+                    padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
                     child: Column(
                       mainAxisSize: MainAxisSize.max,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        // Container(
-                        //   width: MediaQuery.of(context).size.width * 0.2,
-                        //   height: MediaQuery.of(context).size.width * 0.2,
-                        //   decoration: BoxDecoration(
-                        //     shape: BoxShape.circle,
-                        //     color: Color(0XFFFEFEFE),
-                        //   ),
-                        //   alignment: Alignment.center,
-                        //   child: Image.asset("lib/assets/images/Lumi_f2.png"),
-                        // ),
-                        // const SizedBox(height: 30),
-                        // Text("What are you looking for?", style: t.titleLarge),
-                        // const SizedBox(height: 10),
                         TextField(
                           controller: _queryCtrl,
                           decoration: const InputDecoration(
@@ -133,9 +99,7 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
                         const SizedBox(height: 18),
                         Text(
                           "Who are you going with?",
-                          style: t.bodyLarge?.copyWith(
-                            fontWeight: FontWeight.w600,
-                          ),
+                          style: t.bodyLarge?.copyWith(fontWeight: FontWeight.w600),
                         ),
                         const SizedBox(height: 10),
 
@@ -171,10 +135,8 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
                         ),
                         const SizedBox(height: 18),
                         Text(
-                          "How cautious do you feel right now?",
-                          style: t.bodyLarge?.copyWith(
-                            fontWeight: FontWeight.w600,
-                          ),
+                          "Choose your safety level for this visit",
+                          style: t.bodyLarge?.copyWith(fontWeight: FontWeight.w600),
                         ),
                         const SizedBox(height: 10),
 
@@ -204,28 +166,6 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
                           ],
                         ),
 
-                        // Wrap(
-                        //   spacing: 10,
-                        //   runSpacing: 10,
-                        //   children: [
-                        //     _safetyButton(
-                        //       "Relaxed",
-                        //       CautionLevel.relaxed,
-                        //       "lib/assets/images/relaxed.png",
-                        //     ),
-                        //     _safetyButton(
-                        //       "Balanced",
-                        //       CautionLevel.balanced,
-                        //       "lib/assets/images/balanced.png",
-                        //     ),
-                        //     _safetyButton(
-                        //       "Very cautious",
-                        //       CautionLevel.cautious,
-                        //       "lib/assets/images/cautious.png",
-                        //     ),
-                        //   ],
-                        // ),
-                        // const Spacer(),
                         SizedBox(height: 18),
                         LumiPrimaryButton(
                           onPressed: _canSearch ? _search : null,
@@ -265,11 +205,7 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Image.asset(
-          image,
-          fit: BoxFit.contain,
-          height: MediaQuery.of(context).size.width * 0.2,
-        ),
+        Image.asset(image, fit: BoxFit.contain, height: MediaQuery.of(context).size.width * 0.2),
         Text(label),
         SizedBox(height: 8),
       ],
@@ -297,11 +233,7 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Image.asset(
-          image,
-          fit: BoxFit.contain,
-          height: MediaQuery.of(context).size.width * 0.15,
-        ),
+        Image.asset(image, fit: BoxFit.contain, height: MediaQuery.of(context).size.width * 0.15),
         Text(label),
         SizedBox(height: 5),
       ],

@@ -1,6 +1,25 @@
-enum Gender { male, female, they, preferNot }
+enum Gender {
+  male('Male'),
+  female('Female'),
+  they('They'),
+  preferNot('Prefer not to say');
 
-enum AgeRange { r18_24, r25_34, r35_44, r45_54, r55Plus, preferNot }
+  const Gender(this.value);
+  final String value;
+}
+
+enum AgeRange {
+  r18_24('18-24'),
+  r25_34('25-34'),
+  r35_44('35-44'),
+  r45_54('45-54'),
+  r55Plus('55+'),
+  preferNot('Prefer not to say');
+
+  const AgeRange(this.value);
+
+  final String value;
+}
 
 class UserProfile {
   final String? name;

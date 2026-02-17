@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lumi/features/in_app/explore/explore_screen/explore_screen.dart';
-import 'package:lumi/features/in_app/explore/home_search_screen.dart';
+import 'package:lumi/features/in_app/explore/explore_screen/home_search_screen.dart';
 import 'package:lumi/features/in_app/main_nav_bar/lumi_bottom_nav.dart';
 import 'package:lumi/features/in_app/profile/profile_screen/profile_screen.dart';
 import 'package:lumi/features/in_app/saved_poi/saved_poi_screen/saved_poi_screen.dart';
@@ -24,33 +23,8 @@ class _MainNavBarState extends State<MainNavBar> {
       bottomNavigationBar: LumiBottomNav(
         index: _index,
         onTap: (i) => setState(() => _index = i),
-        items: const [
-          Icons.home_outlined,
-          Icons.bookmark_border,
-          Icons.person_outline,
-        ],
+        items: const [Icons.home_outlined, Icons.bookmark_border, Icons.person_outline],
       ),
-      // NavigationBar(
-      //   selectedIndex: _index,
-      //   onDestinationSelected: (i) => setState(() => _index = i),
-      //   destinations: const [
-      //     NavigationDestination(
-      //       icon: Icon(Icons.explore_outlined),
-      //       selectedIcon: Icon(Icons.explore),
-      //       label: 'Explore',
-      //     ),
-      //     NavigationDestination(
-      //       icon: Icon(Icons.bookmark_outline),
-      //       selectedIcon: Icon(Icons.bookmark),
-      //       label: 'Saved',
-      //     ),
-      //     NavigationDestination(
-      //       icon: Icon(Icons.person_outline),
-      //       selectedIcon: Icon(Icons.person),
-      //       label: 'Profile',
-      //     ),
-      //   ],
-      // ),
     );
   }
 }
