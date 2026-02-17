@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lumi/features/in_app/widgets/lumi_app_bar.dart';
+import 'package:lumi/routes/routes.dart';
+import 'package:lumi/widgets/lumi_buttons.dart';
 import '../../../../data/local/user_profile_store.dart';
 import '../../../../models/user_profile.dart';
 
@@ -26,40 +28,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     setState(() => _profile = p);
   }
 
-  String _ageLabel(AgeRange? a) {
-    switch (a) {
-      case AgeRange.r18_24:
-        return "18–24";
-      case AgeRange.r25_34:
-        return "25–34";
-      case AgeRange.r35_44:
-        return "35–44";
-      case AgeRange.r45_54:
-        return "45–54";
-      case AgeRange.r55Plus:
-        return "55+";
-      case AgeRange.preferNot:
-        return "Prefer not to say";
-      case null:
-        return "—";
-    }
-  }
-
-  String _genderLabel(Gender? s) {
-    switch (s) {
-      case Gender.female:
-        return "She";
-      case Gender.male:
-        return "He";
-      case Gender.they:
-        return "They";
-      case Gender.preferNot:
-        return "Prefer not to say";
-      case null:
-        return "—";
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final t = Theme.of(context).textTheme;
@@ -71,33 +39,70 @@ class _ProfileScreenState extends State<ProfileScreen> {
           : Padding(
               padding: const EdgeInsets.all(24),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Text(
-                    _profile!.name == null
-                        ? "Hello."
-                        : "Hello, ${_profile!.name}.",
-                    style: t.titleLarge,
-                  ),
-                  const SizedBox(height: 18),
+                  Container(
+                    padding: const EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.05),
+                          blurRadius: 10,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          _profile!.name == null ? "Hello." : "Hello, ${_profile!.name}.",
+                          style: Theme.of(
+                            context,
+                          ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w600),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          'Here’s what I know about you',
+                          style: Theme.of(
+                            context,
+                          ).textTheme.bodyMedium?.copyWith(color: Colors.grey),
+                        ),
+                        const SizedBox(height: 20),
 
-                  _Row(label: "Age", value: _ageLabel(_profile!.ageRange)),
-                  const SizedBox(height: 10),
-                  _Row(
-                    label: "Identified as",
-                    value: _genderLabel(_profile!.gender),
+                        _ProfileRow(label: 'Age', value: _profile!.ageRange?.value ?? "—"),
+                        const SizedBox(height: 12),
+                        _ProfileRow(
+                          label: 'Gender identity',
+                          value: _profile!.gender?.value ?? "—",
+                        ),
+
+                        const SizedBox(height: 16),
+                        const Divider(),
+                        const SizedBox(height: 8),
+
+                        Text(
+                          'Saved only on this device',
+                          style: Theme.of(
+                            context,
+                          ).textTheme.bodySmall?.copyWith(color: Colors.grey),
+                        ),
+                      ],
+                    ),
                   ),
 
-                  const SizedBox(height: 24),
-                  Text(
-                    "Saved locally.",
-                    style: t.bodyMedium?.copyWith(color: Colors.black54),
-                  ),
+                  const SizedBox(height: 50),
 
-                  const Spacer(),
-                  OutlinedButton(
-                    onPressed: _load,
-                    child: const Text("Refresh"),
+                  SizedBox(
+                    height: 52,
+                    child: LumiPrimaryButton(
+                      onPressed: () {
+                        Navigator.of(context).pushNamed(Routes.onboardName);
+                      },
+                      label: 'Edit profile',
+                    ),
                   ),
                 ],
               ),
@@ -117,16 +122,31 @@ class _Row extends StatelessWidget {
       children: [
         SizedBox(
           width: 110,
-          child: Text(
-            label,
-            style: TextStyle(color: Colors.black.withOpacity(0.55)),
-          ),
+          child: Text(label, style: TextStyle(color: Colors.black.withOpacity(0.55))),
         ),
         Expanded(
-          child: Text(
-            value,
-            style: const TextStyle(fontWeight: FontWeight.w600),
-          ),
+          child: Text(value, style: const TextStyle(fontWeight: FontWeight.w600)),
+        ),
+      ],
+    );
+  }
+}
+
+class _ProfileRow extends StatelessWidget {
+  final String label;
+  final String value;
+
+  const _ProfileRow({required this.label, required this.value});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Text(label, style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.grey)),
+        const Spacer(),
+        Text(
+          value,
+          style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600),
         ),
       ],
     );

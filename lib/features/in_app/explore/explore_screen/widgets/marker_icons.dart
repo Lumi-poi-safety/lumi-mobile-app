@@ -34,32 +34,23 @@ class MarkerIcons {
     _danger = await _fromAsset(dangerPath, targetWidthPx);
     _noData = await _fromAsset(noDataPath, targetWidthPx);
     isLoaded.value = true;
-    log(
-      "after loading marker icons to BitmapDescriptors: $_safe, $_caution, $_danger, $_noData",
-    );
+    log("after loading marker icons to BitmapDescriptors: $_safe, $_caution, $_danger, $_noData");
   }
 
   BitmapDescriptor forSafety(SafetyMarkerType type) {
     switch (type) {
       case SafetyMarkerType.safe:
-        return _safe ??
-            BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen);
+        return _safe ?? BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen);
       case SafetyMarkerType.caution:
-        return _caution ??
-            BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange);
+        return _caution ?? BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange);
       case SafetyMarkerType.danger:
-        return _danger ??
-            BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed);
+        return _danger ?? BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed);
       case SafetyMarkerType.noData:
-        return _noData ??
-            BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueViolet);
+        return _noData ?? BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueViolet);
     }
   }
 
-  static Future<BitmapDescriptor> _fromAsset(
-    String path,
-    int targetWidthPx,
-  ) async {
+  static Future<BitmapDescriptor> _fromAsset(String path, int targetWidthPx) async {
     final data = await rootBundle.load(path);
     final codec = await ui.instantiateImageCodec(
       data.buffer.asUint8List(),

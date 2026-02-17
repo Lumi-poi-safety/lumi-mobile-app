@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lumi/data/local/user_profile_store.dart';
-import 'package:lumi/features/in_app/explore/map_results_screen.dart';
+import 'package:lumi/features/in_app/explore/explore_screen/map_results_screen.dart';
 import 'package:lumi/features/in_app/main_nav_bar/main_nav_bar.dart';
 import 'package:lumi/features/onboarding/screens/age_screen/age_screen.dart';
 import 'package:lumi/features/onboarding/screens/gender_screen/gender_screen.dart';
@@ -9,7 +9,6 @@ import 'package:lumi/features/onboarding/screens/name_screen/name_screen.dart';
 import 'package:lumi/features/onboarding/screens/welcome_screen/welcome_screen.dart';
 import 'package:lumi/features/walkthrough/walkthrough_screen/walkthrough_screen.dart';
 import 'package:lumi/features/walkthrough/walkthrough_screen/walkthrough_screen_first%20copy.dart';
-import 'package:lumi/features/walkthrough/walkthrough_screen/walkthrough_screen_first.dart';
 import 'package:lumi/models/user_profile.dart';
 
 class Routes {
@@ -67,4 +66,3 @@ class _EntryRouterState extends State<EntryRouter> {
   @override
   Widget build(BuildContext context) => const SizedBox.shrink();
 }
-// final next = Routes.onboardWelcome;

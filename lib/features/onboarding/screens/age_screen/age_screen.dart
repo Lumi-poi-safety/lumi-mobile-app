@@ -17,12 +17,12 @@ class _AgeScreenState extends State<AgeScreen> {
   AgeRange? _selected;
   bool _loading = true;
 
-  final _options = const [
-    (AgeRange.r18_24, '18–24'),
-    (AgeRange.r25_34, '25–34'),
-    (AgeRange.r35_44, '35–44'),
-    (AgeRange.r45_54, '45–54'),
-    (AgeRange.r55Plus, '55+'),
+  final _options = [
+    (AgeRange.r18_24, AgeRange.r18_24.value),
+    (AgeRange.r25_34, AgeRange.r25_34.value),
+    (AgeRange.r35_44, AgeRange.r35_44.value),
+    (AgeRange.r45_54, AgeRange.r45_54.value),
+    (AgeRange.r55Plus, AgeRange.r55Plus.value),
   ];
 
   @override
@@ -40,7 +40,6 @@ class _AgeScreenState extends State<AgeScreen> {
   }
 
   Future<void> _continue() async {
-    // allow skip -> null
     await _store.saveAgeRange(_selected);
     if (!mounted) return;
     Navigator.of(context).pushNamed(Routes.onboardSex);
@@ -58,8 +57,7 @@ class _AgeScreenState extends State<AgeScreen> {
   @override
   Widget build(BuildContext context) {
     final t = Theme.of(context).textTheme;
-    if (_loading)
-      return const Scaffold(body: Center(child: CircularProgressIndicator()));
+    if (_loading) return const Scaffold(body: Center(child: CircularProgressIndicator()));
 
     return Scaffold(
       appBar: AppBar(),
@@ -72,10 +70,7 @@ class _AgeScreenState extends State<AgeScreen> {
               Container(
                 width: MediaQuery.of(context).size.width * 0.4,
                 height: MediaQuery.of(context).size.width * 0.4,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Color(0XFFFEFEFE),
-                ),
+                decoration: BoxDecoration(shape: BoxShape.circle, color: Color(0XFFFEFEFE)),
                 alignment: Alignment.center,
                 child: Image.asset("lib/assets/images/Lumi_f2.png"),
               ),

@@ -1,8 +1,8 @@
 class WsSearchRequest {
   final String requestId;
   final String query;
-  final String? withWhom; // "justMe" | "friends" | "date" | "family"
-  final String? caution; // "relaxed" | "balanced" | "cautious"
+  final String? withWhom;
+  final String? caution;
   final double? lat;
   final double? lng;
 
@@ -27,18 +27,13 @@ class WsSearchRequest {
 class WsSearchResult {
   final String requestId;
   final bool isFinal;
-  final List<Map<String, dynamic>> pois; // raw; map to your Poi later
+  final List<Map<String, dynamic>> pois;
 
-  WsSearchResult({
-    required this.requestId,
-    required this.isFinal,
-    required this.pois,
-  });
+  WsSearchResult({required this.requestId, required this.isFinal, required this.pois});
 
   static WsSearchResult fromJson(Map<String, dynamic> j) => WsSearchResult(
     requestId: j["requestId"] as String,
     isFinal: (j["isFinal"] as bool?) ?? false,
-    pois: (j["pois"] as List<dynamic>? ?? const [])
-        .cast<Map<String, dynamic>>(),
+    pois: (j["pois"] as List<dynamic>? ?? const []).cast<Map<String, dynamic>>(),
   );
 }

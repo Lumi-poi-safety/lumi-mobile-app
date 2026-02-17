@@ -9,9 +9,7 @@ class SavedPoisStore {
   Future<List<Poi>> load() async {
     final sp = await SharedPreferences.getInstance();
     final raw = sp.getStringList(_kSaved) ?? const [];
-    return raw
-        .map((s) => _fromJson(jsonDecode(s) as Map<String, dynamic>))
-        .toList();
+    return raw.map((s) => _fromJson(jsonDecode(s) as Map<String, dynamic>)).toList();
   }
 
   Future<void> save(Poi poi) async {
@@ -64,6 +62,10 @@ class SavedPoisStore {
     'name': p.name,
     'category': p.category,
     'tag': p.tag.name,
+    'lat': p.lat,
+    'lng': p.lng,
+    'safetyReason': p.safetyReason,
+    'relevanceReason': p.relevanceReason,
   };
 
   Poi _fromJson(Map<String, dynamic> m) => Poi(
@@ -71,5 +73,9 @@ class SavedPoisStore {
     name: m['name'] as String,
     category: m['category'] as String,
     tag: SafetyTag.values.firstWhere((e) => e.name == (m['tag'] as String)),
+    lat: m['lat'] as double,
+    lng: m['lng'] as double,
+    safetyReason: m['safetyReason'] as String? ?? '',
+    relevanceReason: m['relevanceReason'] as String? ?? '',
   );
 }

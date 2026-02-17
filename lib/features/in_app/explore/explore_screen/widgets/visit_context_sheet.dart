@@ -22,9 +22,7 @@ class _VisitContextSheetState extends State<VisitContextSheet> {
   }
 
   void _apply() {
-    Navigator.of(
-      context,
-    ).pop(VisitContext(withWhom: _withWhom, caution: _caution));
+    Navigator.of(context).pop(VisitContext(withWhom: _withWhom, caution: _caution));
   }
 
   void _clear() {
@@ -67,12 +65,7 @@ class _VisitContextSheetState extends State<VisitContextSheet> {
 
               Row(
                 children: [
-                  Expanded(
-                    child: Text(
-                      "Tell me about this visit",
-                      style: t.titleLarge,
-                    ),
-                  ),
+                  Expanded(child: Text("Tell me about this visit", style: t.titleLarge)),
                   IconButton(
                     onPressed: () => Navigator.of(context).pop(widget.initial),
                     icon: const Icon(Icons.close),
@@ -134,22 +127,19 @@ class _VisitContextSheetState extends State<VisitContextSheet> {
                     context,
                     label: "Relaxed",
                     selected: _caution == CautionLevel.relaxed,
-                    onTap: () =>
-                        setState(() => _caution = CautionLevel.relaxed),
+                    onTap: () => setState(() => _caution = CautionLevel.relaxed),
                   ),
                   _chip(
                     context,
                     label: "Balanced",
                     selected: _caution == CautionLevel.balanced,
-                    onTap: () =>
-                        setState(() => _caution = CautionLevel.balanced),
+                    onTap: () => setState(() => _caution = CautionLevel.balanced),
                   ),
                   _chip(
                     context,
                     label: "Very cautious",
                     selected: _caution == CautionLevel.cautious,
-                    onTap: () =>
-                        setState(() => _caution = CautionLevel.cautious),
+                    onTap: () => setState(() => _caution = CautionLevel.cautious),
                   ),
                 ],
               ),
@@ -176,10 +166,6 @@ class _VisitContextSheetState extends State<VisitContextSheet> {
     required bool selected,
     required VoidCallback onTap,
   }) {
-    return ChoiceChip(
-      label: Text(label),
-      selected: selected,
-      onSelected: (_) => onTap(),
-    );
+    return ChoiceChip(label: Text(label), selected: selected, onSelected: (_) => onTap());
   }
 }

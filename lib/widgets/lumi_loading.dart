@@ -2,11 +2,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 class LumiLoading extends StatefulWidget {
-  const LumiLoading({
-    super.key,
-    this.size = 84,
-    this.label = "Searching safe places…",
-  });
+  const LumiLoading({super.key, this.size = 84, this.label = "Searching safe places…"});
 
   final double size;
   final String label;
@@ -15,8 +11,7 @@ class LumiLoading extends StatefulWidget {
   State<LumiLoading> createState() => _LumiLoadingState();
 }
 
-class _LumiLoadingState extends State<LumiLoading>
-    with SingleTickerProviderStateMixin {
+class _LumiLoadingState extends State<LumiLoading> with SingleTickerProviderStateMixin {
   late final AnimationController _c = AnimationController(
     vsync: this,
     duration: const Duration(milliseconds: 1400),
@@ -40,8 +35,7 @@ class _LumiLoadingState extends State<LumiLoading>
       builder: (context, _) {
         final t = _c.value; // 0..1
         final breathe = 1.0 + 0.06 * math.sin(t * 2 * math.pi);
-        final glow =
-            0.14 + 0.10 * (0.5 + 0.5 * math.sin((t + 0.2) * 2 * math.pi));
+        final glow = 0.14 + 0.10 * (0.5 + 0.5 * math.sin((t + 0.2) * 2 * math.pi));
 
         return Column(
           mainAxisSize: MainAxisSize.min,
@@ -70,20 +64,9 @@ class _LumiLoadingState extends State<LumiLoading>
                       size: Size(widget.size, widget.size),
                       painter: _ShimmerRingPainter(progress: t, c1: c1, c2: c2),
                     ),
-                    // your Lumi icon (replace with Image.asset if you have it)
-                    const Icon(Icons.water_drop_outlined, color: c2, size: 34),
+                    Image.asset("lib/assets/images/Lumi_f.png", width: 45, height: 45),
                   ],
                 ),
-              ),
-            ),
-            const SizedBox(height: 14),
-            Text(
-              widget.label,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: text.withOpacity(0.70),
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
               ),
             ),
           ],
@@ -94,11 +77,7 @@ class _LumiLoadingState extends State<LumiLoading>
 }
 
 class _ShimmerRingPainter extends CustomPainter {
-  _ShimmerRingPainter({
-    required this.progress,
-    required this.c1,
-    required this.c2,
-  });
+  _ShimmerRingPainter({required this.progress, required this.c1, required this.c2});
 
   final double progress;
   final Color c1;

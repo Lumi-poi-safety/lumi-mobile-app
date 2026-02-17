@@ -17,28 +17,18 @@ class WelcomeScreen extends StatelessWidget {
             children: [
               const Spacer(flex: 1),
 
-              // TODO: Replace with your Lumi asset (Image.asset / Image.memory)
               Container(
                 width: MediaQuery.of(context).size.width * 0.7,
                 height: MediaQuery.of(context).size.width * 0.7,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Color(0XFFFEFEFE),
-                ),
+                decoration: BoxDecoration(shape: BoxShape.circle, color: Color(0XFFFEFEFE)),
                 alignment: Alignment.center,
-                child: Image.asset(
-                  "lib/assets/images/Lumi_f2.png",
-                  // width: MediaQuery.of(context).size.width * 0.5,
-                ),
+                child: Image.asset("lib/assets/images/Lumi_f2.png"),
               ),
 
               const SizedBox(height: 24),
               Text(
                 "Hi, I’m Lumi",
-                style: t.titleMedium?.copyWith(
-                  fontWeight: FontWeight.normal,
-                  letterSpacing: 0.3,
-                ),
+                style: t.titleMedium?.copyWith(fontWeight: FontWeight.normal, letterSpacing: 0.3),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 16),
@@ -57,10 +47,7 @@ class WelcomeScreen extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 30.0),
                 child: Text(
                   "Let's get to know each other a little so I can give you the best recommendations.",
-                  style: t.bodyMedium?.copyWith(
-                    color: Colors.black54,
-                    fontSize: 16,
-                  ),
+                  style: t.bodyMedium?.copyWith(color: Colors.black54, fontSize: 16),
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -71,22 +58,12 @@ class WelcomeScreen extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
 
-              // const Spacer(),
               SizedBox(height: 20),
               LumiPrimaryButton(
-                onPressed: () =>
-                    Navigator.of(context).pushNamed(Routes.onboardName),
+                onPressed: () => Navigator.of(context).pushNamed(Routes.onboardName),
                 label: "Let’s start",
               ),
               const SizedBox(height: 30),
-
-              // TextButton(
-              //   onPressed:
-              //       () =>
-              //           Navigator.of(context).pushReplacementNamed(Routes.main),
-              //   child: const Text("Skip for now"),
-              // ),
-              // const SizedBox(height: 8),
             ],
           ),
         ),

@@ -29,6 +29,7 @@ class _NameScreenState extends State<NameScreen> {
   }
 
   Future<void> _continue() async {
+    FocusScope.of(context).unfocus();
     await _store.saveName(_controller.text);
     if (!mounted) return;
     Navigator.of(context).pushNamed(Routes.onboardAge);
@@ -60,15 +61,10 @@ class _NameScreenState extends State<NameScreen> {
                   },
                   child: SingleChildScrollView(
                     child: ConstrainedBox(
-                      constraints: BoxConstraints(
-                        minHeight: constraints.maxHeight,
-                      ),
+                      constraints: BoxConstraints(minHeight: constraints.maxHeight),
                       child: IntrinsicHeight(
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 30,
-                            vertical: 10,
-                          ),
+                          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
@@ -80,35 +76,22 @@ class _NameScreenState extends State<NameScreen> {
                                   color: Color(0XFFFEFEFE),
                                 ),
                                 alignment: Alignment.center,
-                                child: Image.asset(
-                                  "lib/assets/images/Lumi_f2.png",
-                                ),
+                                child: Image.asset("lib/assets/images/Lumi_f2.png"),
                               ),
                               const SizedBox(height: 30),
-                              Text(
-                                "What should I call you?",
-                                style: t.titleLarge,
-                              ),
+                              Text("What should I call you?", style: t.titleLarge),
                               const SizedBox(height: 50),
                               TextField(
                                 controller: _controller,
                                 textInputAction: TextInputAction.done,
                                 onSubmitted: (_) => _continue(),
-                                decoration: const InputDecoration(
-                                  hintText: "Your name",
-                                ),
+                                decoration: const InputDecoration(hintText: "Your name"),
                               ),
                               SizedBox(height: 50),
                               const Spacer(),
-                              LumiPrimaryButton(
-                                onPressed: _continue,
-                                label: "Continue",
-                              ),
+                              LumiPrimaryButton(onPressed: _continue, label: "Continue"),
                               const SizedBox(height: 12),
-                              TextButton(
-                                onPressed: _skip,
-                                child: const Text("Skip"),
-                              ),
+                              TextButton(onPressed: _skip, child: const Text("Skip")),
                               SizedBox(height: isKeyboardVisible ? 100 : 30),
                             ],
                           ),

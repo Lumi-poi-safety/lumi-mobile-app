@@ -1,56 +1,90 @@
 import 'dart:async';
 import 'dart:convert';
+
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 class WsClient {
-  final Uri uri;
+  static const String wsUrl = 'wss://lumi-backend-24106113899.us-central1.run.app/';
 
-  WebSocketChannel? _ch;
+  WebSocketChannel? _channel;
   StreamSubscription? _sub;
 
   final _incoming = StreamController<Map<String, dynamic>>.broadcast();
   Stream<Map<String, dynamic>> get messages => _incoming.stream;
 
-  bool get isConnected => _ch != null;
-
-  WsClient(this.uri);
+  bool get isConnected => _channel != null;
 
   Future<void> connect() async {
-    if (_ch != null) return;
+    if (_channel != null) return;
 
-    _ch = WebSocketChannel.connect(uri);
-    _sub = _ch!.stream.listen(
+    _channel = WebSocketChannel.connect(Uri.parse(wsUrl));
+    _sub = _channel!.stream.listen(
       (event) {
+        if (event is! String) return;
         try {
-          final j = jsonDecode(event as String) as Map<String, dynamic>;
-          _incoming.add(j);
-        } catch (_) {
-          // ignore malformed messages
-        }
+          final decoded = jsonDecode(event);
+          if (decoded is Map<String, dynamic>) {
+            _incoming.add(decoded);
+          }
+        } catch (_) {}
       },
-      onError: (_) => _handleDisconnected(),
-      onDone: _handleDisconnected,
+      onDone: _markDisconnected,
+      onError: (_) => _markDisconnected(),
       cancelOnError: true,
     );
   }
 
-  void send(Map<String, dynamic> json) {
-    final ch = _ch;
-    if (ch == null) return;
-    ch.sink.add(jsonEncode(json));
+  void _markDisconnected() {
+    _sub?.cancel();
+    _sub = null;
+    _channel = null;
+  }
+
+  void sendEvent(String event, Map<String, dynamic> data) {
+    final ch = _channel;
+    if (ch == null) throw StateError('WS not connected. Call connect() first.');
+
+    final payload = <String, dynamic>{"event": event, "data": data};
+    ch.sink.add(jsonEncode(payload));
+  }
+
+  void sendQuestion({
+    required String requestId,
+    required String userText,
+    required Map<String, dynamic> context,
+  }) {
+    print("requestId: $requestId");
+    print("userText: $userText");
+    print("context: $context");
+    sendEvent("question", {"requestId": requestId, "userText": userText, "context": context});
+  }
+
+  Future<Map<String, dynamic>> waitForDone({
+    required String requestId,
+    Duration timeout = const Duration(seconds: 250),
+  }) async {
+    await connect();
+
+    final stream = messages.where((m) {
+      print(m);
+      if (m["event"] != "done") return false;
+      final data = m["data"];
+      if (data is! Map<String, dynamic>) return false;
+      return data["requestId"] == requestId;
+    });
+
+    try {
+      final msg = await stream.first.timeout(timeout);
+      return (msg["data"] as Map<String, dynamic>);
+    } on TimeoutException {
+      throw TimeoutException('Timed out waiting for done for requestId=$requestId');
+    }
   }
 
   Future<void> close() async {
     await _sub?.cancel();
     _sub = null;
-    await _ch?.sink.close();
-    _ch = null;
-  }
-
-  void _handleDisconnected() {
-    // mark disconnected; reconnection handled by caller/viewmodel
-    _sub?.cancel();
-    _sub = null;
-    _ch = null;
+    await _channel?.sink.close();
+    _channel = null;
   }
 }
