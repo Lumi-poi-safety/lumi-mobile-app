@@ -44,12 +44,13 @@ The system demonstrates how safety can function as a dynamic, context-aware para
 - Flutter SDK (3.x or higher)
 - Running backend server
 - Configured LLM API key (backend side)
+- Configured Google Maps API key
 
 ### Installation
 
 ```bash
-git clone https://github.com/miri-red/lumi.git
-cd lumi
+git clone https://github.com/Lumi-poi-safety/lumi-mobile-app.git
+cd lumi-mobile-app
 flutter pub get
 ```
 
