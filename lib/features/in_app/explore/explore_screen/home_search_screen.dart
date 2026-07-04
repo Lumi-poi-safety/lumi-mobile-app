@@ -134,9 +134,11 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
                           ],
                         ),
                         const SizedBox(height: 18),
-                        Text(
-                          "Choose your safety level for this visit",
-                          style: t.bodyLarge?.copyWith(fontWeight: FontWeight.w600),
+                        FittedBox(
+                          child: Text(
+                            "Choose desired safety level for this visit",
+                            style: t.bodyLarge?.copyWith(fontWeight: FontWeight.w600),
+                          ),
                         ),
                         const SizedBox(height: 10),
 
