@@ -52,3 +52,9 @@ git clone https://github.com/miri-red/lumi.git
 cd lumi
 flutter pub get
 ```
+
+### Google Maps Key and Websocket URL
+
+- In android/app/src/main/AndroidManifest.xml fill in your key under "com.google.android.geo.API_KEY"
+- In ios/Runner/AppDelegate.swift fill in your key under GMSServices.provideAPIKey
+- In lib/features/in_app/explore/service/ws_client.dart add your websocket URL
