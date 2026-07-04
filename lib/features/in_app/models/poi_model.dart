@@ -22,11 +22,11 @@ class Poi {
     required this.relevanceReason,
   });
 
-  factory Poi.fromDto(PoiWsResult dto, {String category = 'POI'}) {
+  factory Poi.fromDto(PoiWsResult dto) {
     return Poi(
       id: _buildId(dto),
       name: dto.name,
-      category: category,
+      category: dto.category,
       tag: _mapSafetyLevel(dto.safetyLevel),
       lat: dto.lat,
       lng: dto.lng,

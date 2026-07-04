@@ -49,20 +49,26 @@ class LumiButtons {
 }
 
 class LumiPrimaryButton extends StatelessWidget {
-  const LumiPrimaryButton({super.key, required this.onPressed, required this.label});
+  const LumiPrimaryButton({
+    super.key,
+    required this.onPressed,
+    required this.label,
+    this.disabled = false,
+  });
 
   final VoidCallback? onPressed;
   final String label;
+  final bool disabled;
 
   @override
   Widget build(BuildContext context) {
     return DecoratedBox(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(LumiButtons.radius),
-        gradient: const LinearGradient(
+        gradient: LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
-          colors: [LumiButtons.c1, LumiButtons.c2],
+          colors: disabled ? [LumiButtons.c1, Colors.grey] : [LumiButtons.c1, LumiButtons.c2],
         ),
         boxShadow: [
           BoxShadow(

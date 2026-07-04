@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 class WsClient {
-  static const String wsUrl = 'wss://lumi-backend-24106113899.us-central1.run.app/';
+  static const String wsUrl = YOUR_WEBSOCKET_URL_HERE; // Replace with your WebSocket URL
 
   WebSocketChannel? _channel;
   StreamSubscription? _sub;
@@ -67,7 +67,7 @@ class WsClient {
 
     final stream = messages.where((m) {
       print(m);
-      if (m["event"] != "done") return false;
+      if (m["event"] != "done" && m["event"] != "error") return false;
       final data = m["data"];
       if (data is! Map<String, dynamic>) return false;
       return data["requestId"] == requestId;
@@ -75,7 +75,16 @@ class WsClient {
 
     try {
       final msg = await stream.first.timeout(timeout);
-      return (msg["data"] as Map<String, dynamic>);
+      final event = msg["event"] as String?;
+      final data = (msg["data"] as Map).cast<String, dynamic>();
+
+      if (event == "done") {
+        return data;
+      }
+
+      // event == "error"
+      final message = (data["message"] ?? data["error"] ?? "Unknown error").toString();
+      throw WsRequestException(requestId: requestId, message: message, raw: data);
     } on TimeoutException {
       throw TimeoutException('Timed out waiting for done for requestId=$requestId');
     }
@@ -87,4 +96,15 @@ class WsClient {
     await _channel?.sink.close();
     _channel = null;
   }
+}
+
+class WsRequestException implements Exception {
+  final String requestId;
+  final String message;
+  final Map<String, dynamic> raw;
+
+  WsRequestException({required this.requestId, required this.message, required this.raw});
+
+  @override
+  String toString() => 'WsRequestException(requestId=$requestId, message=$message)';
 }

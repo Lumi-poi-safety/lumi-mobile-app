@@ -18,6 +18,8 @@ void main() {
 
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [SystemUiOverlay.top]);
 
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+
   runApp(const MyApp());
 }
 

@@ -32,7 +32,9 @@ class SearchWsRepository {
         "ntaName": locationName,
         "userLat": userLat,
         "userLng": userLng,
-        "ageRange": userProfile.ageRange == AgeRange.preferNot ? null : userProfile.ageRange?.value,
+        "ageRange": userProfile.ageRange == AgeRange.preferNot
+            ? null
+            : userProfile.ageRange?.value,
         "gender": userProfile.gender == Gender.preferNot
             ? null
             : userProfile.gender?.value.toLowerCase(),
@@ -45,6 +47,9 @@ class SearchWsRepository {
     final data = await _client.waitForDone(requestId: requestId);
 
     final poisRaw = (data["pois"] as List<dynamic>? ?? const []);
-    return poisRaw.whereType<Map<String, dynamic>>().map(PoiWsResult.fromJson).toList();
+    return poisRaw
+        .whereType<Map<String, dynamic>>()
+        .map(PoiWsResult.fromJson)
+        .toList();
   }
 }

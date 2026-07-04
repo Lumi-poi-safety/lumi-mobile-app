@@ -134,10 +134,8 @@ class _MapResultsScreenState extends State<MapResultsScreen> {
             stream: searchBloc.location$,
             builder: (_, snap) {
               final loc = snap.data;
-              print("miri: loc: $loc");
               final center = loc == null ? _fallbackCenter : LatLng(loc.lat, loc.lng);
               _map?.moveCamera(CameraUpdate.newLatLng(center));
-              print("miri: center: $center");
               return Stack(
                 children: [
                   ValueListenableBuilder<bool>(
@@ -179,7 +177,8 @@ class _MapResultsScreenState extends State<MapResultsScreen> {
                     ),
                   ),
                   if (s is SearchLoading) _Banner("Finding places…", isLoading: true),
-                  if (s is SearchError) _Banner(s.message, isError: true),
+                  if (s is SearchError)
+                    _Banner("Oops something went wrong, try again", isError: true),
 
                   if (s is SearchSuccess && s.results.isEmpty)
                     const _Banner("No matches found for this context."),
@@ -244,7 +243,7 @@ class _Banner extends StatelessWidget {
               borderRadius: BorderRadius.circular(14),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-                child: Text(text),
+                child: Center(child: Text(text)),
               ),
             ),
     );

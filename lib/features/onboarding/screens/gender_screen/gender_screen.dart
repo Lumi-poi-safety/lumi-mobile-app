@@ -63,19 +63,19 @@ class _GenderScreenState extends State<GenderScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
-                width: MediaQuery.of(context).size.width * 0.4,
-                height: MediaQuery.of(context).size.width * 0.4,
+                width: MediaQuery.of(context).size.width * 0.35,
+                height: MediaQuery.of(context).size.width * 0.35,
                 decoration: BoxDecoration(shape: BoxShape.circle, color: Color(0XFFFEFEFE)),
                 alignment: Alignment.center,
                 child: Image.asset("lib/assets/images/Lumi_f2.png"),
               ),
-              const SizedBox(height: 30),
+              const SizedBox(height: 20),
               Text(
                 "How would you like to be identified?",
                 style: t.titleLarge,
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 50),
+              const SizedBox(height: 40),
 
               GridView.count(
                 crossAxisCount: 2,
@@ -104,9 +104,11 @@ class _GenderScreenState extends State<GenderScreen> {
               ),
 
               const Spacer(),
-              LumiPrimaryButton(onPressed: _selected == null ? null : _done, label: "Done"),
-              const SizedBox(height: 12),
-              TextButton(onPressed: _skip, child: const Text("Skip")),
+              LumiPrimaryButton(
+                onPressed: _selected == null ? null : _done,
+                label: "Done",
+                disabled: _selected == null,
+              ),
               SizedBox(height: 30),
             ],
           ),

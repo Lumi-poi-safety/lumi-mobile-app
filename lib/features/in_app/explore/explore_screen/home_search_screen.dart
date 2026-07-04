@@ -170,6 +170,7 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
                         LumiPrimaryButton(
                           onPressed: _canSearch ? _search : null,
                           label: "Find places",
+                          disabled: !_canSearch,
                         ),
                         SizedBox(height: 10),
                       ],
@@ -234,7 +235,7 @@ class _HomeSearchScreenState extends State<HomeSearchScreen> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Image.asset(image, fit: BoxFit.contain, height: MediaQuery.of(context).size.width * 0.15),
-        Text(label),
+        FittedBox(child: Text(label)),
         SizedBox(height: 5),
       ],
     );

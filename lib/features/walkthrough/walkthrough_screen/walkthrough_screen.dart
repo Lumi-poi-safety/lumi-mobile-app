@@ -94,7 +94,7 @@ class _WalkthroughScreenState extends State<WalkthroughScreen> {
                     padding: const EdgeInsets.fromLTRB(24, 10, 24, 10),
                     child: Column(
                       children: [
-                        Expanded(flex: 7, child: _WalkthroughVisual(asset: p.imageAsset)),
+                        Expanded(flex: 6, child: _WalkthroughVisual(asset: p.imageAsset)),
                         const SizedBox(height: 18),
 
                         Expanded(
@@ -112,10 +112,12 @@ class _WalkthroughScreenState extends State<WalkthroughScreen> {
                                 ),
                               ),
                               const SizedBox(height: 20),
-                              Text(
-                                p.body,
-                                textAlign: TextAlign.center,
-                                style: t.bodyLarge?.copyWith(color: Colors.black54, height: 1.35),
+                              Expanded(
+                                child: Text(
+                                  p.body,
+                                  textAlign: TextAlign.center,
+                                  style: t.bodyLarge?.copyWith(color: Colors.black54, height: 1.35),
+                                ),
                               ),
                             ],
                           ),

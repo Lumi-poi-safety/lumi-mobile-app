@@ -69,8 +69,8 @@ class _NameScreenState extends State<NameScreen> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Container(
-                                width: MediaQuery.of(context).size.width * 0.4,
-                                height: MediaQuery.of(context).size.width * 0.4,
+                                width: MediaQuery.of(context).size.width * 0.35,
+                                height: MediaQuery.of(context).size.width * 0.35,
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   color: Color(0XFFFEFEFE),
@@ -78,9 +78,9 @@ class _NameScreenState extends State<NameScreen> {
                                 alignment: Alignment.center,
                                 child: Image.asset("lib/assets/images/Lumi_f2.png"),
                               ),
-                              const SizedBox(height: 30),
+                              const SizedBox(height: 20),
                               Text("What should I call you?", style: t.titleLarge),
-                              const SizedBox(height: 50),
+                              const SizedBox(height: 40),
                               TextField(
                                 controller: _controller,
                                 textInputAction: TextInputAction.done,

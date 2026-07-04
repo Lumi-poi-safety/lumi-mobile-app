@@ -40,6 +40,7 @@ class _AgeScreenState extends State<AgeScreen> {
   }
 
   Future<void> _continue() async {
+    if (_selected == null) return;
     await _store.saveAgeRange(_selected);
     if (!mounted) return;
     Navigator.of(context).pushNamed(Routes.onboardSex);
@@ -47,11 +48,6 @@ class _AgeScreenState extends State<AgeScreen> {
 
   Future<void> _preferNot() async {
     setState(() => _selected = AgeRange.preferNot);
-  }
-
-  Future<void> _skip() async {
-    setState(() => _selected = null);
-    await _continue();
   }
 
   @override
@@ -68,15 +64,15 @@ class _AgeScreenState extends State<AgeScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
-                width: MediaQuery.of(context).size.width * 0.4,
-                height: MediaQuery.of(context).size.width * 0.4,
+                width: MediaQuery.of(context).size.width * 0.35,
+                height: MediaQuery.of(context).size.width * 0.35,
                 decoration: BoxDecoration(shape: BoxShape.circle, color: Color(0XFFFEFEFE)),
                 alignment: Alignment.center,
                 child: Image.asset("lib/assets/images/Lumi_f2.png"),
               ),
-              const SizedBox(height: 30),
+              const SizedBox(height: 20),
               Text("What’s your age?", style: t.titleLarge),
-              const SizedBox(height: 50),
+              const SizedBox(height: 40),
 
               GridView.builder(
                 shrinkWrap: true,
@@ -121,9 +117,11 @@ class _AgeScreenState extends State<AgeScreen> {
               ),
 
               const Spacer(),
-              LumiPrimaryButton(onPressed: _continue, label: "Continue"),
-              const SizedBox(height: 12),
-              TextButton(onPressed: _skip, child: const Text("Skip")),
+              LumiPrimaryButton(
+                onPressed: _continue,
+                label: "Continue",
+                disabled: _selected == null,
+              ),
               SizedBox(height: 30),
             ],
           ),
